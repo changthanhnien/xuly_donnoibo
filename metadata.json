@@ -1,0 +1,6 @@
+{
+  "name": "Update Sắp xếp Phiếu Giao Hàng PDF",
+  "description": "Ứng dụng sắp xếp lại trang PDF phiếu giao hàng theo thứ tự mã đơn trong file Excel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
