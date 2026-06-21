@@ -496,13 +496,16 @@ export default function App() {
         // Normalize the text (lowercase, collapse multiple spaces, remove newlines)
         const normalized = block.normalize('NFC').toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
         
-        // Exact Vietnamese addresses to check anywhere in the sender block
         const rules = [
           { keyword: "32 trần thị báo", province: "Hồ Chí Minh" },
+          { keyword: "phú thạnh, hồ chí minh", province: "Hồ Chí Minh" },
           { keyword: "131 đường nguyễn văn tạo", province: "Đà Nẵng" },
           { keyword: "131 nguyễn văn tạo", province: "Đà Nẵng" },
+          { keyword: "an khê, đà nẵng", province: "Đà Nẵng" },
           { keyword: "c2 lô 20", province: "Hà Nội" },
-          { keyword: "c2 lo 20", province: "Hà Nội" }
+          { keyword: "c2 lo 20", province: "Hà Nội" },
+          { keyword: "đt mới định công", province: "Hà Nội" },
+          { keyword: "định công, hoàng mai", province: "Hà Nội" }
         ];
         
         for (const rule of rules) {
