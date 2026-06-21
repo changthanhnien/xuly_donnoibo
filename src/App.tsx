@@ -496,37 +496,17 @@ export default function App() {
         // Normalize the text (lowercase, collapse multiple spaces, remove newlines)
         const normalized = block.toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
         
-        // Strip common labels at the start
-        const prefixesToRemove = [
-          "người gửi:", "người gửi",
-          "sender:", "sender",
-          "gửi từ:", "gửi từ",
-          "from:", "from"
-        ];
-        
-        let stripped = normalized;
-        for (const p of prefixesToRemove) {
-          if (stripped.startsWith(p)) {
-            stripped = stripped.substring(p.length).replace(/^[\s:-]+/, '').trim();
-          }
-        }
-        
-        // Exact Vietnamese addresses to check
+        // Exact Vietnamese addresses to check anywhere in the sender block
         const rules = [
-          { prefix: "32 trần thị báo", province: "Hồ Chí Minh" },
-          { prefix: "131 nguyễn văn tạo", province: "Đà Nẵng" },
-          { prefix: "c2 lô 20, đt mới định công", province: "Hà Nội" },
-          { prefix: "c2 lo 20, đt mới định công", province: "Hà Nội" },
-          { prefix: "c2 lo 20, dt moi dinh cong", province: "Hà Nội" }
+          { keyword: "32 trần thị báo", province: "Hồ Chí Minh" },
+          { keyword: "131 đường nguyễn văn tạo", province: "Đà Nẵng" },
+          { keyword: "131 nguyễn văn tạo", province: "Đà Nẵng" },
+          { keyword: "c2 lô 20", province: "Hà Nội" },
+          { keyword: "c2 lo 20", province: "Hà Nội" }
         ];
         
         for (const rule of rules) {
-          if (stripped.startsWith(rule.prefix) || normalized.startsWith(rule.prefix)) {
-            return rule.province;
-          }
-          // Also fallback to checking if it contains the phrase at the very beginning (within first 30 characters of stripped)
-          const idx = stripped.indexOf(rule.prefix);
-          if (idx !== -1 && idx < 30) {
+          if (normalized.includes(rule.keyword)) {
             return rule.province;
           }
         }
