@@ -495,21 +495,23 @@ export default function App() {
         
         // Normalize the text (lowercase, collapse multiple spaces, remove newlines)
         const normalized = block.normalize('NFC').toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+        // Also create a version with absolutely NO spaces to catch PDF extraction artifacts (e.g. "C 2  L ô  2 0")
+        const stripped = normalized.replace(/\s+/g, '');
         
         const rules = [
-          { keyword: "32 trần thị báo", province: "Hồ Chí Minh" },
-          { keyword: "phú thạnh, hồ chí minh", province: "Hồ Chí Minh" },
-          { keyword: "131 đường nguyễn văn tạo", province: "Đà Nẵng" },
-          { keyword: "131 nguyễn văn tạo", province: "Đà Nẵng" },
-          { keyword: "an khê, đà nẵng", province: "Đà Nẵng" },
-          { keyword: "c2 lô 20", province: "Hà Nội" },
-          { keyword: "c2 lo 20", province: "Hà Nội" },
-          { keyword: "đt mới định công", province: "Hà Nội" },
-          { keyword: "định công, hoàng mai", province: "Hà Nội" }
+          { keyword: "32 trần thị báo", strippedKeyword: "32trầnthịbáo", province: "Hồ Chí Minh" },
+          { keyword: "phú thạnh, hồ chí minh", strippedKeyword: "phúthạnh,hồchíminh", province: "Hồ Chí Minh" },
+          { keyword: "131 đường nguyễn văn tạo", strippedKeyword: "131đườngnguyễnvăntạo", province: "Đà Nẵng" },
+          { keyword: "131 nguyễn văn tạo", strippedKeyword: "131nguyễnvăntạo", province: "Đà Nẵng" },
+          { keyword: "an khê, đà nẵng", strippedKeyword: "ankhê,đànẵng", province: "Đà Nẵng" },
+          { keyword: "c2 lô 20", strippedKeyword: "c2lô20", province: "Hà Nội" },
+          { keyword: "c2 lo 20", strippedKeyword: "c2lo20", province: "Hà Nội" },
+          { keyword: "đt mới định công", strippedKeyword: "đtmớiđịnhcông", province: "Hà Nội" },
+          { keyword: "định công, hoàng mai", strippedKeyword: "địnhcông,hoàngmai", province: "Hà Nội" }
         ];
         
         for (const rule of rules) {
-          if (normalized.includes(rule.keyword)) {
+          if (normalized.includes(rule.keyword) || stripped.includes(rule.strippedKeyword)) {
             return rule.province;
           }
         }
