@@ -455,9 +455,9 @@ export default function App() {
       };
 
       const detectProvince = (zoneText: string): string | null => {
-        const normZone = zoneText.toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ');
+        const normZone = zoneText.normalize('NFC').toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ');
         // Remove spaces, newlines and common punctuation completely to test compressed strings
-        const compZone = zoneText.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/g, '');
+        const compZone = zoneText.normalize('NFC').toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/g, '');
 
         // Tier A: Check exact phrases in normalized text
         for (const config of provinceConfigs) {
@@ -494,7 +494,7 @@ export default function App() {
         if (!block) return null;
         
         // Normalize the text (lowercase, collapse multiple spaces, remove newlines)
-        const normalized = block.toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+        const normalized = block.normalize('NFC').toLowerCase().replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
         
         // Exact Vietnamese addresses to check anywhere in the sender block
         const rules = [
