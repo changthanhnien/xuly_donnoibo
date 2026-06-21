@@ -1023,14 +1023,29 @@ export default function App() {
         const newRow = worksheet1.addRow(rowData);
         const currentRowNum = newRow.number;
 
+        const qty = row.qty;
         newRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
           cell.border = {
             top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' }
           };
+          
+          if (qty > 1) {
+            cell.fill = {
+              type: 'pattern',
+              pattern: 'solid',
+              fgColor: { argb: 'FFA6A6A6' }
+            };
+            cell.font = { color: { argb: 'FFFFFFFF' }, size: 12 };
+          }
+          
           if (colNumber === 1) {
             cell.alignment = { vertical: 'middle', horizontal: 'center' };
           } else if (colNumber === 5) {
-            cell.alignment = { vertical: 'middle', horizontal: 'right' };
+            if (qty > 1) {
+              cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            } else {
+              cell.alignment = { vertical: 'middle', horizontal: 'right' };
+            }
           } else {
             cell.alignment = { vertical: 'middle', horizontal: 'left' };
           }
@@ -1321,16 +1336,32 @@ export default function App() {
         const newRow = worksheet1.addRow(rowData);
         const currentRowNum = newRow.number;
 
+        const qty = Number(row[excelMapping["Số lượng sản phẩm"]] || 0);
+
         // Apply borders and alignment
         newRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
           cell.border = {
             top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' }
           };
+          
+          if (qty > 1) {
+            cell.fill = {
+              type: 'pattern',
+              pattern: 'solid',
+              fgColor: { argb: 'FFA6A6A6' }
+            };
+            cell.font = { color: { argb: 'FFFFFFFF' }, size: 12 };
+          }
+          
           // Numeric columns right, STT center, rest left
           if (colNumber === 1) {
             cell.alignment = { vertical: 'middle', horizontal: 'center' };
           } else if (colNumber === 5) {
-            cell.alignment = { vertical: 'middle', horizontal: 'right' };
+            if (qty > 1) {
+              cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            } else {
+              cell.alignment = { vertical: 'middle', horizontal: 'right' };
+            }
           } else {
             cell.alignment = { vertical: 'middle', horizontal: 'left' };
           }
